@@ -35,6 +35,7 @@ pipeline:
                     connectorRef: Manjunathpersonal
                     repo: pes2ug19cs219/harness-rollback
                     tags:
+                      - <+input>
                       - latest
                     dockerfile: app/Dockerfile
                     context: app
