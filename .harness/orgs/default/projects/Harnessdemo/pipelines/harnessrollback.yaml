@@ -37,6 +37,7 @@ pipeline:
                     tags:
                       - latest
                     dockerfile: app/Dockerfile
+                    context: app
     - stage:
         name: Deploy
         identifier: Deploy
