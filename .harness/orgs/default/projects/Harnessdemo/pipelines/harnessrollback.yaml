@@ -1,0 +1,80 @@
+pipeline:
+  name: harness-rollback
+  identifier: harnessrollback
+  projectIdentifier: Harnessdemo
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec:
+              imageSpec:
+                imageName: ubuntu-latest
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build and Push
+                  identifier: Build_and_Push
+                  spec:
+                    connectorRef: Manjunathpersonal
+                    repo: pes2ug19cs219/harness-rollback
+                    tags:
+                      - latest
+                    dockerfile: app/Dockerfile
+    - stage:
+        name: Deploy
+        identifier: Deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: harnessapp
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: rancherdesktop
+          execution:
+            steps:
+              - step:
+                  type: K8sRollingDeploy
+                  name: rolling-upgrade
+                  identifier: rollingupgrade
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+                    delegateSelectors:
+                      - kubernetes-delegate
+                  timeout: 10m
+            rollbackSteps: []
+        tags: {}
+        delegateSelectors:
+          - kubernetes-delegate
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
+  properties:
+    ci:
+      codebase:
+        connectorRef: harnessgit
+        build: <+input>
