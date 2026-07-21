@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: YOUR_DOCKERHUB_USERNAME/rollback-demo:v1
+        image: pes2ug19cs219/harness-rollback
         ports:
         - containerPort: 80
         readinessProbe:
