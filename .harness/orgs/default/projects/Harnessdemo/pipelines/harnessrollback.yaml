@@ -75,7 +75,7 @@ pipeline:
                     pruningEnabled: false
                     delegateSelectors:
                       - kubernetes-delegate
-                  timeout: 10m
+                  timeout: 2m
             rollbackSteps: []
         tags: {}
         delegateSelectors:
