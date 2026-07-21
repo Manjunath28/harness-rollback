@@ -74,6 +74,12 @@ pipeline:
                     skipDryRun: false
                     pruningEnabled: false
                   timeout: 2m
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: StageRollback
               - step:
                   type: K8sRollingRollback
                   name: K8sRollingRollback_1
