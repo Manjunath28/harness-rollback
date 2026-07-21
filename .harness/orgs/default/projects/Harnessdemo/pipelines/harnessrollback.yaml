@@ -76,6 +76,13 @@ pipeline:
                     delegateSelectors:
                       - kubernetes-delegate
                   timeout: 2m
+              - step:
+                  type: K8sRollingRollback
+                  name: k8-rollback
+                  identifier: k8rollback
+                  spec:
+                    pruningEnabled: false
+                  timeout: 10m
             rollbackSteps: []
         tags: {}
         delegateSelectors:
