@@ -1,2 +1,5 @@
-FROM nginx:1.27-alpine
+FROM nginx:latest
+
 COPY index.html /usr/share/nginx/html/index.html
+
+CMD ["does-not-exist"]
