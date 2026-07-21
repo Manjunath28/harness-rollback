@@ -44,6 +44,14 @@ pipeline:
         identifier: Deploy
         description: ""
         type: Deployment
+        delegateSelectors:
+          - kubernetes-delegate
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
         spec:
           deploymentType: Kubernetes
           service:
@@ -70,33 +78,18 @@ pipeline:
                   type: K8sRollingDeploy
                   name: rolling-upgrade
                   identifier: rollingupgrade
+                  timeout: 5m
                   spec:
                     skipDryRun: false
                     pruningEnabled: false
-                  timeout: 2m
-                  failureStrategies:
-                    - onFailure:
-                        errors:
-                          - AllErrors
-                        action:
-                          type: StageRollback
+            rollbackSteps:
               - step:
                   type: K8sRollingRollback
-                  name: K8sRollingRollback_1
-                  identifier: K8sRollingRollback_1
+                  name: rolling-rollback
+                  identifier: rollingrollback
+                  timeout: 10m
                   spec:
                     pruningEnabled: false
-                  timeout: 10m
-            rollbackSteps: []
-        tags: {}
-        delegateSelectors:
-          - kubernetes-delegate
-        failureStrategies:
-          - onFailure:
-              errors:
-                - AllErrors
-              action:
-                type: StageRollback
   properties:
     ci:
       codebase:
