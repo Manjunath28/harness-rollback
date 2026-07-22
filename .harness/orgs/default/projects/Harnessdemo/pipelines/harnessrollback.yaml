@@ -82,13 +82,12 @@ pipeline:
                   spec:
                     skipDryRun: false
                     pruningEnabled: false
-              - step:
-                  type: K8sRollingRollback
-                  name: Rollback
-                  identifier: Rollback
-                  spec:
-                    pruningEnabled: false
-                  timeout: 10m
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: StageRollback
             rollbackSteps:
               - step:
                   type: K8sRollingRollback
