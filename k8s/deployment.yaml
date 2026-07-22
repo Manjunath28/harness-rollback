@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: pes2ug19cs219/harness-rollback:<+artifact.tag>
+          image: pes2ug19cs219/harness-rollback
           command:
             - /bin/does-not-exist
           ports:
