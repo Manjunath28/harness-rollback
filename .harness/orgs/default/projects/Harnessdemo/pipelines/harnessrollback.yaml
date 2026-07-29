@@ -78,7 +78,7 @@ pipeline:
                   type: K8sRollingDeploy
                   name: rolling-upgrade
                   identifier: rollingupgrade
-                  timeout: 2m
+                  timeout: 1m
                   spec:
                     skipDryRun: false
                     pruningEnabled: false
